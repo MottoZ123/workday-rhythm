@@ -14,3 +14,8 @@
 ## Documentation release · 2026-10-26
 
 Mode: RELEASE. Rewrote README, added feature diagrams and contributor credit. Retained functional version and runtime behavior. Validation command: `python tools/workflow.py all`; results recorded in local publication logs and per-commit CI.
+
+## 2026-10-26 · 品牌与共同作者更新
+
+- README 移除开发者名单，保留贡献流程。
+- 按维护者指定的 project1 方式，在本次发布提交中使用 Co-authored-by 关联 Mary-wym，账号采用 GitHub 数字 ID 对应的 noreply 地址。

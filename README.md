@@ -59,12 +59,7 @@ python tools/workflow.py all
 
 保留 Schema v5 和 `moyu_workday_companion_state` / `moyu_workday_companion_schema_version` 及旧版本迁移；改品牌不改变用户数据或自定义标题。管理页可确认后恢复初始数据。导出的备份包含私人信息，不要上传仓库或公开 Issue。
 
-## 贡献者
-
-| Contributor | 角色 |
-| --- | --- |
-| [MottoZ123](https://github.com/MottoZ123) | 项目维护者 |
-| [Mary-Wym](https://github.com/Mary-Wym) | 共同开发者 / Contributor |
+## 参与贡献
 
 欢迎通过 Issue 提交问题，或通过 Pull Request 改进项目。开发约定见 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [AGENTS.md](AGENTS.md)。请使用虚构数据复现问题，避免提交私人记录、备份或真实 AppID。
 
