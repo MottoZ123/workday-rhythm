@@ -4,9 +4,7 @@
 
 **功能版本：V1.1.4 · 5 个 Tab + 日报页 · 数据仅存本机 · MIT 开源**
 
-![工休伴侣功能概览：安排今天、工作与休息、回顾与管理](docs/images/feature-overview.svg)
-
-> 上图为功能示意，不是真机截图。首次使用没有工资金额或个人历史记录，清单预设可自行编辑。
+<img src="docs/images/app-preview.png" alt="工休伴侣今日页面" width="360">
 
 ## 可以做什么
 
@@ -36,9 +34,9 @@ flowchart LR
 
 ## 运行
 
-在微信开发者工具中导入包含 `project.config.json` 的根目录。`miniprogramRoot` 为 `miniprogram/`，公开 AppID 为 `touristappid`。合法 AppID 仅用于本机调试，提交前恢复占位值并运行隐私检查。
+在微信开发者工具中导入包含 `project.config.json` 的根目录。`miniprogramRoot` 为 `miniprogram/`，公开 AppID 为 `touristappid`。真机调试时在本地配置自己的 AppID，提交前恢复占位值并运行隐私检查。
 
-包含五个 Tab 和一个日报页面。无服务器、登录、云同步、广告或第三方统计。日报使用本地 Canvas 和相册 API。
+应用采用纯本地架构，包含五个 Tab 和一个日报页面。日报使用本地 Canvas 和相册 API。
 
 ## 验证与打包
 
@@ -51,13 +49,13 @@ python tools/prepublish_check.py
 python tools/workflow.py all
 ```
 
-全量工作流运行结构、语法、12 组业务回归与隐私检查，输出 `release/` 下 ZIP、SHA-256 和包内文件清单。GitHub Actions 运行离线回归，不上传微信或部署云服务。
+全量工作流运行结构、语法、12 组业务回归与隐私检查，输出 `release/` 下 ZIP、SHA-256 和包内文件清单。GitHub Actions 自动运行离线回归。
 
 ## 本地数据
 
-首次启动工资金额为空，打卡、计时、今日调整、访问历史和回收站均为空。通用条目预设不是用户记录。测试中的工资数字与历史均为人工构造的断言样例。
+首次启动提供可编辑的通用清单；工资、打卡、计时和历史记录从个人设置与使用开始积累。
 
-保留 Schema v5 和 `moyu_workday_companion_state` / `moyu_workday_companion_schema_version` 及旧版本迁移；改品牌不改变用户数据或自定义标题。管理页可确认后恢复初始数据。导出的备份包含私人信息，不要上传仓库或公开 Issue。
+本地数据采用 Schema v5，使用 `moyu_workday_companion_state` / `moyu_workday_companion_schema_version` 存储键，并支持旧版本数据迁移。管理页可确认后恢复初始数据。导出的备份包含私人信息，不要上传仓库或公开 Issue。
 
 ## 参与贡献
 
@@ -67,4 +65,4 @@ python tools/workflow.py all
 
 代码使用 [MIT License](LICENSE)。数据与隐私边界见 [PRIVACY_AND_DATA.md](PRIVACY_AND_DATA.md)，人工验收项见 [QA_REPORT.md](QA_REPORT.md)。
 
-随包通用插画沿用项目素材，私人参考截图不公开。后续优先完善小屏与大字号体验、后台计时恢复和备份兼容性。
+界面支持自定义标题，随包插画采用项目素材。后续优先完善小屏与大字号体验、后台计时恢复和备份兼容性。
