@@ -10,3 +10,7 @@
 - Publication uses a newly initialized main branch; no input Git history is copied.
 - Requested collaborator: Mary-Wym with write access, subject to invitation acceptance.
 - GitHub publication is source hosting only; no cloud or WeChat deployment.
+
+## Documentation release · 2026-10-26
+
+Mode: RELEASE. Rewrote README, added feature diagrams and contributor credit. Retained functional version and runtime behavior. Validation command: `python tools/workflow.py all`; results recorded in local publication logs and per-commit CI.

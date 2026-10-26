@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="450" viewBox="0 0 1080 450" role="img" aria-labelledby="title desc">
+<title id="title">工休伴侣 · Workday Rhythm功能概览</title><desc id="desc">功能示意图，非运行截图。所有私人数据保存在本机。</desc>
+<rect width="1080" height="450" rx="24" fill="#F8F1E5"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="40" y="61" font-size="30" font-weight="700" fill="#5D7B6F">工休伴侣 · Workday Rhythm</text>
+<text x="40" y="99" font-size="20" fill="#51483E">安排每日清单，掌握工作进度，给休息留出时间。</text>
+<rect x="40" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
+<text x="64" y="180" font-size="23" font-weight="700" fill="#5D7B6F">01  安排今天</text>
+<text x="64" y="225" font-size="18" fill="#3E2C24">90 条通用清单预设</text>
+<text x="64" y="268" font-size="18" fill="#3E2C24">固定模板与今日微调</text>
+<text x="64" y="311" font-size="18" fill="#3E2C24">新增、编辑、打卡与回收站</text>
+<rect x="380" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
+<text x="404" y="180" font-size="23" font-weight="700" fill="#5D7B6F">02  工作与休息</text>
+<text x="404" y="225" font-size="18" fill="#3E2C24">工资估算 / 下班倒计时</text>
+<text x="404" y="268" font-size="18" fill="#3E2C24">3 / 5 / 10 / 15 分钟休息</text>
+<text x="404" y="311" font-size="18" fill="#3E2C24">手动计时与休息类型</text>
+<rect x="720" y="136" width="320" height="222" rx="18" fill="#FFFDF7" stroke="#E3D8C8"/>
+<text x="744" y="180" font-size="23" font-weight="700" fill="#5D7B6F">03  回顾与管理</text>
+<text x="744" y="225" font-size="18" fill="#3E2C24">近七日统计与日报</text>
+<text x="744" y="268" font-size="18" fill="#3E2C24">金额隐藏与三档字号</text>
+<text x="744" y="311" font-size="18" fill="#3E2C24">本地 JSON 备份与恢复</text>
+<text x="40" y="405" font-size="17" fill="#625B51">微信原生小程序 · 私人数据仅存本机 · 功能示意，非运行截图</text>
+</g></svg>

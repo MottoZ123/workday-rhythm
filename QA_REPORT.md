@@ -20,3 +20,7 @@ Baseline: 6 pages (5 tabs), Schema v5, 12 domain/UI test files. Coverage include
 ## Evidence
 
 Local command logs and remote commit/Actions status are recorded in the enclosing project release report. GitHub Actions is the reproducible per-commit test record; this document does not claim any unobserved device test or remote CI run passed.
+
+## Documentation update · 2026-10-26
+
+`python tools/workflow.py all` passed after the README and contributor updates. Relative README links and SVG XML structure were checked. Diagrams describe features, not captured device screens; existing manual device checks remain outstanding.
