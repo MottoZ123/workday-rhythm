@@ -1,10 +1,10 @@
 # Privacy and data treatment (V1.1.4 public-source)
 
 **Public repository contains:** code, neutral generic checklist presets,
-project-drawn cat/tab illustrations, general regression tests.
+project-drawn cat/tab illustrations, an approved app preview, general regression tests.
 **It does not contain:** real salary, work employer, salary sessions,
 check histories, personal todo items, backups, account or student identity,
-screenshots of user devices, short links, or API secrets.
+short links, or API secrets.
 
 The first-run default amount is an empty string; `checksByDate`, `sessions`,
 `visitDates`, `adjustmentsByDate` and `trash` are all empty.
