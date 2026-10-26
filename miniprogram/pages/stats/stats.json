@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "统计与成就",
+  "usingComponents": {
+    "progress-bar": "/components/progress-bar/progress-bar",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

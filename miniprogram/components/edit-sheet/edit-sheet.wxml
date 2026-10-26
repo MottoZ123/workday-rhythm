@@ -1,0 +1,11 @@
+<view wx:if="{{visible}}" class="mask" bindtap="cancel" catchtouchmove="stop">
+  <view class="sheet" catchtap="stop">
+    <view class="handle"></view>
+    <view class="sheet-title">{{title}}</view>
+    <input class="editor" value="{{draft}}" maxlength="{{maxLength}}" placeholder="{{placeholder}}" focus="{{visible}}" bindinput="handleInput" confirm-type="done" bindconfirm="confirm" />
+    <view class="button-row">
+      <button class="cancel" bindtap="cancel">取消</button>
+      <button class="confirm" bindtap="confirm">{{confirmText}}</button>
+    </view>
+  </view>
+</view>

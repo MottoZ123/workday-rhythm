@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/today/today",
+    "pages/fixed/fixed",
+    "pages/salary/salary",
+    "pages/stats/stats",
+    "pages/manage/manage",
+    "pages/report/report"
+  ],
+  "window": {
+    "navigationBarTitleText": "工休伴侣",
+    "navigationBarBackgroundColor": "#FFF8EA",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F1E5",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#8D7B68",
+    "selectedColor": "#5D7B6F",
+    "backgroundColor": "#FFFDFC",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/today/today",
+        "text": "今日",
+        "iconPath": "assets/tab/checklist.png",
+        "selectedIconPath": "assets/tab/checklist-active.png"
+      },
+      {
+        "pagePath": "pages/fixed/fixed",
+        "text": "固定",
+        "iconPath": "assets/tab/fixed.png",
+        "selectedIconPath": "assets/tab/fixed-active.png"
+      },
+      {
+        "pagePath": "pages/salary/salary",
+        "text": "攒米",
+        "iconPath": "assets/tab/salary.png",
+        "selectedIconPath": "assets/tab/salary-active.png"
+      },
+      {
+        "pagePath": "pages/stats/stats",
+        "text": "统计",
+        "iconPath": "assets/tab/stats.png",
+        "selectedIconPath": "assets/tab/stats-active.png"
+      },
+      {
+        "pagePath": "pages/manage/manage",
+        "text": "管理",
+        "iconPath": "assets/tab/manage.png",
+        "selectedIconPath": "assets/tab/manage-active.png"
+      }
+    ],
+    "custom": true
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

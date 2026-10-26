@@ -1,0 +1,151 @@
+<view class="manage-page font-{{fontMode}}">
+  <view class="page-shell">
+    <view class="manage-hero">
+      <view class="hero-kicker">CUSTOMIZE YOUR DAY</view>
+      <view class="hero-title">把标题和清单改成自己的</view>
+      <view class="hero-copy">主标题、分类标题、图标、颜色和顺序都可以调整；删除后先进入回收站。</view>
+    </view>
+
+    <view class="boss-card card">
+      <view class="boss-head">
+        <view>
+          <view class="eyebrow">STEALTH / BOSS MODE</view>
+          <view class="section-title">隐身 / 老板模式</view>
+          <view class="section-desc">一键把“摸鱼、工资、带薪”等敏感表达切换成普通工作进度，并可隐藏金额。</view>
+        </view>
+        <view class="boss-badge">隐</view>
+      </view>
+      <view class="boss-master" bindtap="toggleBossMode">
+        <view>
+          <view class="boss-master-title">当前：{{privacy.stealthMode ? '隐身模式' : '正常模式'}}</view>
+          <view class="boss-master-desc">点这里快速切换，不需要进入二级设置。</view>
+        </view>
+        <view class="boss-status {{privacy.stealthMode ? 'boss-on' : ''}}">{{privacy.stealthMode ? 'ON' : 'OFF'}}</view>
+      </view>
+      <view class="privacy-setting-row">
+        <view><view class="privacy-setting-title">隐身时隐藏工资金额</view><view class="privacy-setting-desc">工资、秒薪、摸鱼收益显示为 ••••。</view></view>
+        <switch checked="{{privacy.hideAmounts}}" color="#5D7B6F" data-field="hideAmounts" bindchange="handlePrivacySwitch" />
+      </view>
+    </view>
+
+    <view class="font-card card">
+      <view class="section-title">显示字号</view>
+      <view class="section-desc">全局三档字号。标准档已比上一版更大；大字号会限制最大尺寸，避免按钮、金额和标题越界。</view>
+      <view class="font-segment">
+        <view class="font-option {{fontMode === 'small' ? 'font-option-active' : ''}}" data-mode="small" bindtap="changeFontSize">
+          <text class="font-sample font-sample-small">Aa</text><text class="font-name">小</text>
+        </view>
+        <view class="font-option {{fontMode === 'medium' ? 'font-option-active' : ''}}" data-mode="medium" bindtap="changeFontSize">
+          <text class="font-sample font-sample-medium">Aa</text><text class="font-name">标准</text>
+        </view>
+        <view class="font-option {{fontMode === 'large' ? 'font-option-active' : ''}}" data-mode="large" bindtap="changeFontSize">
+          <text class="font-sample font-sample-large">Aa</text><text class="font-name">大</text>
+        </view>
+      </view>
+      <view class="font-note">切换后立即生效；底部导航和超大数字采用安全上限，不跟随无限放大。</view>
+    </view>
+
+    <view class="profile-card card">
+      <view class="section-title">页面主标题</view>
+      <view class="section-desc">修改后会同步显示在“今日清单”顶部。</view>
+      <view class="form-group">
+        <view class="field-label">顶部徽标</view>
+        <input class="input-shell" value="{{profile.badge}}" maxlength="24" data-field="badge" bindinput="handleProfileInput" />
+      </view>
+      <view class="form-group">
+        <view class="field-label">主标题</view>
+        <input class="input-shell title-input" value="{{profile.title}}" maxlength="20" data-field="title" bindinput="handleProfileInput" />
+      </view>
+      <view class="form-group">
+        <view class="field-label">副标题</view>
+        <input class="input-shell" value="{{profile.subtitle}}" maxlength="36" data-field="subtitle" bindinput="handleProfileInput" />
+      </view>
+      <button class="save-profile" bindtap="saveProfile">保存页面标题</button>
+    </view>
+
+    <view class="category-section">
+      <view class="section-row">
+        <view>
+          <view class="section-title">分类标题管理</view>
+          <view class="section-desc">可新增、改名、换图标和颜色、调整顺序或删除。</view>
+        </view>
+        <button class="small-add" bindtap="openAddCategory">＋ 新增</button>
+      </view>
+
+      <view class="category-manage-list">
+        <view wx:for="{{categories}}" wx:key="id" class="category-manage-card card">
+          <view class="category-top">
+            <view class="category-preview" style="background: {{item.color}}18; color: {{item.color}};">{{item.icon}}</view>
+            <view class="category-input-wrap">
+              <input class="category-title-input" value="{{item.title}}" maxlength="30" data-id="{{item.id}}" bindblur="updateCategoryTitle" />
+              <view class="category-meta">{{item.itemCount}} 条清单项</view>
+            </view>
+          </view>
+
+          <view class="style-tools">
+            <picker mode="selector" range="{{iconPresets}}" value="{{item.iconIndex}}" data-id="{{item.id}}" bindchange="changeCategoryIcon">
+              <view class="icon-picker">更换图标 {{item.icon}} ›</view>
+            </picker>
+            <view class="color-row">
+              <button wx:for="{{colorPresets}}" wx:for-item="color" wx:key="*this" class="color-dot {{item.color === color ? 'color-selected' : ''}}" style="background: {{color}};" data-id="{{item.id}}" data-color="{{color}}" bindtap="changeCategoryColor"></button>
+            </view>
+          </view>
+
+          <view class="category-actions">
+            <button class="action-button" disabled="{{!item.canUp}}" data-id="{{item.id}}" data-direction="-1" bindtap="moveCategory">↑ 上移</button>
+            <button class="action-button" disabled="{{!item.canDown}}" data-id="{{item.id}}" data-direction="1" bindtap="moveCategory">↓ 下移</button>
+            <button class="action-button delete-action" data-id="{{item.id}}" bindtap="deleteCategory">删除分类</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="trash-card card">
+      <view class="section-row">
+        <view>
+          <view class="section-title">回收站</view>
+          <view class="section-desc">分类标题和清单项删除后会先保存在这里。</view>
+        </view>
+        <button class="clear-trash" bindtap="clearTrash">清空</button>
+      </view>
+
+      <view wx:if="{{trash.length}}" class="trash-list">
+        <view wx:for="{{trash}}" wx:key="id" class="trash-row">
+          <view class="trash-icon">{{item.icon}}</view>
+          <view class="trash-copy">
+            <view class="trash-type">{{item.typeText}}</view>
+            <view class="trash-title">{{item.title}}</view>
+            <view class="trash-description">{{item.description}}</view>
+          </view>
+          <view class="trash-actions">
+            <button class="restore" data-id="{{item.id}}" bindtap="restoreTrash">恢复</button>
+            <button class="permanent" data-id="{{item.id}}" bindtap="deleteTrashPermanently">彻删</button>
+          </view>
+        </view>
+      </view>
+      <empty-state wx:else icon="🗑️" title="回收站是空的" description="删除的标题和清单项会先放在这里" />
+    </view>
+
+    <view class="data-card card">
+      <view class="section-title">本机数据工具</view>
+      <view class="section-desc">备份包含清单、每日固定模板、每日微调、标题、工资设置和摸鱼记录。请只粘贴自己导出的 JSON。</view>
+      <view class="data-buttons">
+        <button class="data-button export" bindtap="exportBackup">复制完整备份</button>
+        <button class="data-button import" bindtap="importBackup">从剪贴板导入</button>
+        <button class="data-button reset" bindtap="resetAllData">恢复初始版本</button>
+      </view>
+    </view>
+
+    <view class="privacy-card card">
+      <view class="privacy-icon">🔒</view>
+      <view class="privacy-copy">
+        <view class="privacy-title">默认仅保存在本机</view>
+        <view class="privacy-desc">本版本不接入账号、服务器、云数据库或广告 SDK；微信右上角原生分享不会附带工资、清单内容和摸鱼记录。</view>
+      </view>
+    </view>
+
+    <view class="version">工休伴侣 · V1.1.4</view>
+  </view>
+</view>
+
+<edit-sheet visible="{{editorVisible}}" title="{{editorTitle}}" value="{{editorValue}}" bindconfirm="confirmAddCategory" bindcancel="closeEditor" />

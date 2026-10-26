@@ -1,0 +1,216 @@
+page {
+  min-height: 100%;
+  background: #faf4ea;
+  color: #4f3a2d;
+  font-size: var(--font-28, 28rpx);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+view,
+text,
+input,
+textarea,
+button,
+picker,
+switch,
+slider,
+canvas,
+image {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+  background: transparent;
+  border-radius: 0;
+}
+button::after { border: none; }
+
+.page-shell {
+  width: 100%;
+  max-width: 750rpx;
+  margin: 0 auto;
+  padding: 22rpx 28rpx calc(156rpx + env(safe-area-inset-bottom));
+}
+
+.card {
+  background: #fffaf2;
+  border: 2rpx solid #efd6b5;
+  border-radius: 26rpx;
+  box-shadow: 0 8rpx 22rpx rgba(105, 76, 52, .055);
+}
+
+.section-title {
+  color: #3f3028;
+  font-size: var(--font-31, 31rpx);
+  font-weight: 900;
+  line-height: 1.35;
+}
+.section-desc,
+.muted { color: #918178; }
+.eyebrow {
+  color: #9a8069;
+  font-size: var(--font-18, 18rpx);
+  font-weight: 900;
+  letter-spacing: 2rpx;
+}
+
+.primary-button,
+.secondary-button,
+.soft-button,
+.danger-button {
+  min-height: 70rpx;
+  padding: 14rpx 22rpx;
+  border-radius: 16rpx;
+  font-size: var(--font-23, 23rpx);
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.primary-button { color: #fffdf8; background: #6c9a61; }
+.secondary-button { color: #59483d; background: #f3ebe0; }
+.soft-button { color: #7a6250; background: #fff7e9; border: 1rpx solid #ead8bd; }
+.danger-button { color: #a44e37; background: #fbe9e2; }
+.inline-button { color: #7f6b5b; font-size: var(--font-22, 22rpx); font-weight: 800; }
+
+.input-shell {
+  min-height: 72rpx;
+  padding: 14rpx 18rpx;
+  background: #fffdf8;
+  border: 2rpx solid #ead8bd;
+  border-radius: 16rpx;
+  color: #4a3b32;
+  font-size: var(--font-25, 25rpx);
+}
+.safe-bottom { height: calc(24rpx + env(safe-area-inset-bottom)); }
+
+@media (max-width: 360px) {
+  .page-shell { padding-left: 22rpx; padding-right: 22rpx; }
+  .card { border-radius: 22rpx; }
+}
+
+/* V1.1.2 global three-step font sizing.
+   Small keeps the V1.1.1 baseline; Standard is intentionally larger; Large is capped for layout safety. */
+.font-small {
+  --font-14: 14rpx;
+  --font-15: 15rpx;
+  --font-16: 16rpx;
+  --font-17: 17rpx;
+  --font-18: 18rpx;
+  --font-19: 19rpx;
+  --font-20: 20rpx;
+  --font-21: 21rpx;
+  --font-22: 22rpx;
+  --font-23: 23rpx;
+  --font-24: 24rpx;
+  --font-25: 25rpx;
+  --font-26: 26rpx;
+  --font-27: 27rpx;
+  --font-28: 28rpx;
+  --font-29: 29rpx;
+  --font-30: 30rpx;
+  --font-31: 31rpx;
+  --font-32: 32rpx;
+  --font-33: 33rpx;
+  --font-34: 34rpx;
+  --font-35: 35rpx;
+  --font-36: 36rpx;
+  --font-37: 37rpx;
+  --font-38: 38rpx;
+  --font-39: 39rpx;
+  --font-40: 40rpx;
+  --font-42: 42rpx;
+  --font-43: 43rpx;
+  --font-45: 45rpx;
+  --font-46: 46rpx;
+  --font-47: 47rpx;
+  --font-48: 48rpx;
+  --font-50: 50rpx;
+  --font-51: 51rpx;
+  --font-52: 52rpx;
+  --font-55: 55rpx;
+  --font-58: 58rpx;
+}
+.font-medium {
+  --font-14: 16rpx;
+  --font-15: 17rpx;
+  --font-16: 18rpx;
+  --font-17: 19rpx;
+  --font-18: 20rpx;
+  --font-19: 21rpx;
+  --font-20: 22rpx;
+  --font-21: 23rpx;
+  --font-22: 24rpx;
+  --font-23: 25rpx;
+  --font-24: 26rpx;
+  --font-25: 27rpx;
+  --font-26: 28rpx;
+  --font-27: 29rpx;
+  --font-28: 30rpx;
+  --font-29: 31rpx;
+  --font-30: 32rpx;
+  --font-31: 33rpx;
+  --font-32: 33rpx;
+  --font-33: 34rpx;
+  --font-34: 35rpx;
+  --font-35: 36rpx;
+  --font-36: 37rpx;
+  --font-37: 38rpx;
+  --font-38: 39rpx;
+  --font-39: 40rpx;
+  --font-40: 41rpx;
+  --font-42: 43rpx;
+  --font-43: 44rpx;
+  --font-45: 46rpx;
+  --font-46: 47rpx;
+  --font-47: 48rpx;
+  --font-48: 49rpx;
+  --font-50: 51rpx;
+  --font-51: 51rpx;
+  --font-52: 52rpx;
+  --font-55: 55rpx;
+  --font-58: 58rpx;
+}
+.font-large {
+  --font-14: 18rpx;
+  --font-15: 19rpx;
+  --font-16: 20rpx;
+  --font-17: 21rpx;
+  --font-18: 22rpx;
+  --font-19: 23rpx;
+  --font-20: 24rpx;
+  --font-21: 25rpx;
+  --font-22: 26rpx;
+  --font-23: 27rpx;
+  --font-24: 28rpx;
+  --font-25: 29rpx;
+  --font-26: 30rpx;
+  --font-27: 31rpx;
+  --font-28: 32rpx;
+  --font-29: 33rpx;
+  --font-30: 34rpx;
+  --font-31: 35rpx;
+  --font-32: 35rpx;
+  --font-33: 36rpx;
+  --font-34: 37rpx;
+  --font-35: 38rpx;
+  --font-36: 39rpx;
+  --font-37: 40rpx;
+  --font-38: 41rpx;
+  --font-39: 42rpx;
+  --font-40: 43rpx;
+  --font-42: 44rpx;
+  --font-43: 45rpx;
+  --font-45: 47rpx;
+  --font-46: 48rpx;
+  --font-47: 49rpx;
+  --font-48: 50rpx;
+  --font-50: 52rpx;
+  --font-51: 52rpx;
+  --font-52: 53rpx;
+  --font-55: 56rpx;
+  --font-58: 59rpx;
+}

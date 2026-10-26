@@ -1,0 +1,164 @@
+<view class="today-page {{stealthMode ? 'stealth-page' : ''}} font-{{fontMode}}">
+  <view class="page-shell">
+    <view class="hero-zone">
+      <view class="hero-topline">
+        <view class="hero-copy">
+          <view class="hero-title">{{stealthMode ? '今日计划' : profile.title}}</view>
+          <view class="hero-subtitle">{{stealthMode ? '保持节奏，按自己的方式完成今天' : profile.subtitle}}～</view>
+        </view>
+        <view class="eye-button" bindtap="toggleStealth">
+          <view class="eye-shape"><view class="eye-dot"></view></view>
+        </view>
+      </view>
+      <image wx:if="{{!stealthMode}}" class="hero-reference" src="/assets/illustrations/reference-hero-strip.png" mode="widthFix" />
+      <image wx:else class="hero-cat" src="/assets/illustrations/cat-lounge.png" mode="aspectFit" />
+    </view>
+
+    <view class="money-row card" bindtap="goSalary">
+      <view class="money-cell">
+        <view class="metric-label">距离下班还有</view>
+        <view class="countdown">{{salaryCard.offworkText}}</view>
+        <view class="metric-note">下班时间 {{salaryCard.endTime}}</view>
+      </view>
+      <view class="money-divider"></view>
+      <view class="money-cell right">
+        <view class="earning-label">{{stealthMode ? '今日进度值' : '今日带薪摸鱼收益'}}</view>
+        <view class="earned">{{stealthMode ? '' : '¥'}}{{salaryCard.displayAmountText}}</view>
+        <view class="metric-note">{{stealthMode ? '敏感金额已隐藏' : '每秒钟 ¥' + salaryCard.displayPerSecondText}}</view>
+      </view>
+    </view>
+
+    <view class="progress-card card">
+      <view class="progress-head">
+        <view class="progress-copy">
+          <text class="progress-title">今日进度 {{overall.percentage}}%</text>
+          <text class="progress-caption">（已完成 {{overall.completed}} / {{overall.total}}）</text>
+        </view>
+        <view class="reset-chip" bindtap="resetToday">重置</view>
+      </view>
+      <progress-bar value="{{overall.percentage}}" tone="green" height="14" />
+    </view>
+
+    <view class="quick-tools card">
+      <view class="quick-row">
+        <view class="quick-tool" bindtap="startQuickFive"><view class="tool-icon green">5</view><view class="tool-copy"><text class="tool-title">5分钟休息</text><text class="tool-desc">一键计时</text></view></view>
+        <view class="quick-tool" bindtap="randomQuickFish"><view class="tool-icon yellow">骰</view><view class="tool-copy"><text class="tool-title">随机摸鱼</text><text class="tool-desc">抽一个</text></view></view>
+      </view>
+      <view class="quick-row">
+        <view class="quick-tool" bindtap="goReport"><view class="tool-icon orange">报</view><view class="tool-copy"><text class="tool-title">今日日报</text><text class="tool-desc">生成卡片</text></view></view>
+        <view class="quick-tool" bindtap="goStats"><view class="tool-icon blue">统</view><view class="tool-copy"><text class="tool-title">本周统计</text><text class="tool-desc">看趋势</text></view></view>
+      </view>
+    </view>
+
+    <view wx:if="{{categories.length}}" class="checklist-card card">
+      <view class="plan-head">
+        <view class="plan-title-wrap">
+          <view class="plan-title">今日清单</view>
+          <view class="plan-subline">固定 {{planSummary.fixedCount}} · 今日 {{planSummary.effectiveCount}}</view>
+        </view>
+        <view class="plan-head-actions">
+          <view class="micro-chip" bindtap="openDailyAdjust">微调今日</view>
+          <view class="tiny-link" bindtap="goFixed">固定项</view>
+          <view class="chevron all-chevron {{allExpanded ? 'chevron-open' : ''}}" bindtap="toggleAllCategories">⌄</view>
+        </view>
+      </view>
+      <view wx:if="{{planSummary.addedCount || planSummary.removedCount}}" class="adjustment-line">
+        <text wx:if="{{planSummary.addedCount}}" class="plus">临时 +{{planSummary.addedCount}}</text>
+        <text wx:if="{{planSummary.removedCount}}" class="minus">临时 -{{planSummary.removedCount}}</text>
+        <text class="restore-template" bindtap="resetDailyAdjustments">恢复固定模板</text>
+      </view>
+
+      <view class="category-list">
+        <view wx:for="{{categories}}" wx:key="id" class="category-panel">
+          <view class="category-head" data-id="{{item.id}}" bindtap="toggleCategory">
+            <view class="category-icon" style="background: {{item.color}}18; color: {{item.color}};">{{item.icon}}</view>
+            <view class="category-copy">
+              <view class="category-title">{{item.title}}</view>
+            </view>
+            <view class="category-summary">{{item.completed}}/{{item.total}}</view>
+            <view class="chevron {{item.expanded ? 'chevron-open' : ''}}">⌄</view>
+          </view>
+          <view wx:if="{{item.expanded}}" class="category-body">
+            <view wx:for="{{item.items}}" wx:for-item="task" wx:key="id" class="task-row {{task.checked ? 'task-done' : ''}}" data-category-id="{{item.id}}" data-item-id="{{task.id}}" bindtap="handleToggleItem">
+              <view class="checkbox" style="border-color: {{task.checked ? item.color : '#8f8b82'}}; background: {{task.checked ? item.color : '#FFFFFF'}};"><text wx:if="{{task.checked}}" class="checkmark">✓</text></view>
+              <view class="task-content">
+                <view class="task-text">{{task.text}}</view>
+                <view wx:if="{{task.dailyAdded}}" class="today-badge">仅今天加入</view>
+              </view>
+              <view wx:if="{{task.checked}}" class="done-text">已完成</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:else class="empty-today card">
+      <empty-state icon="☕" title="今天的固定清单还是空的" description="去“固定”页勾选真正每天都会做的项目，以后首页只看精简清单。" />
+      <button class="empty-action" bindtap="goFixed">现在设置每日固定项</button>
+    </view>
+
+    <view class="privacy-note">固定项、工资、计时、统计与成就默认都只保存在本机。</view>
+  </view>
+</view>
+
+<view wx:if="{{adjustVisible}}" class="adjust-mask" bindtap="closeDailyAdjust">
+  <view class="adjust-sheet" catchtap="noop">
+    <view class="adjust-head">
+      <view class="adjust-head-copy">
+        <view class="adjust-title">微调今日</view>
+        <view class="adjust-desc">勾选只影响 {{dateText}}；新增、修改、删除会同步到条目库。</view>
+      </view>
+      <button class="adjust-close" bindtap="closeDailyAdjust">×</button>
+    </view>
+    <view class="adjust-search-row">
+      <input class="adjust-search" value="{{adjustSearchText}}" placeholder="搜索条目" confirm-type="search" bindinput="handleAdjustSearch" />
+      <button wx:if="{{adjustSearchText}}" class="adjust-clear" bindtap="clearAdjustSearch">清除</button>
+    </view>
+    <scroll-view scroll-y class="adjust-scroll">
+      <view wx:if="{{adjustCategories.length}}" class="adjust-categories">
+        <view wx:for="{{adjustCategories}}" wx:key="id" class="adjust-category">
+          <view class="adjust-category-title">
+            <view class="adjust-category-heading">
+              <view class="adjust-category-name">{{item.icon}} {{item.title}}</view>
+              <view class="adjust-category-count">今日 {{item.selectedCount}} / {{item.total}}</view>
+            </view>
+            <view class="adjust-category-add" data-category-id="{{item.id}}" catchtap="openAdjustAddItem">＋ 新增</view>
+          </view>
+          <view wx:for="{{item.items}}" wx:for-item="task" wx:key="id" class="adjust-row">
+            <view class="adjust-choice" data-item-id="{{task.id}}" bindtap="toggleDailyPresence">
+              <view class="adjust-box {{task.selectedToday ? 'adjust-box-on' : ''}}" style="border-color: {{task.selectedToday ? item.color : '#D8CEC2'}}; background: {{task.selectedToday ? item.color : '#FFFFFF'}};"><text wx:if="{{task.selectedToday}}" class="adjust-check">✓</text></view>
+              <view class="adjust-copy">
+                <view class="adjust-text">{{task.text}}</view>
+                <view class="adjust-tags">
+                  <text wx:if="{{task.fixed}}" class="adjust-tag fixed-tag">每日固定</text>
+                  <text wx:if="{{task.dailyAdded}}" class="adjust-tag add-tag">今天临时加入</text>
+                  <text wx:if="{{task.dailyRemoved}}" class="adjust-tag remove-tag">今天临时移除</text>
+                </view>
+              </view>
+            </view>
+            <view class="adjust-item-actions">
+              <view class="adjust-item-action" data-category-id="{{item.id}}" data-item-id="{{task.id}}" catchtap="openAdjustEditItem">修改</view>
+              <view class="adjust-item-action danger" data-category-id="{{item.id}}" data-item-id="{{task.id}}" catchtap="deleteAdjustItem">删除</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <empty-state wx:else icon="🔎" title="没有匹配条目" description="换个关键词试试，或清除搜索后新增条目" />
+      <view class="adjust-scroll-bottom"></view>
+    </scroll-view>
+    <view class="adjust-footer">
+      <button class="adjust-reset" bindtap="resetDailyAdjustments">恢复固定模板</button>
+      <button class="adjust-done" bindtap="closeDailyAdjust">完成微调</button>
+    </view>
+  </view>
+</view>
+
+<edit-sheet
+  visible="{{adjustEditorVisible}}"
+  title="{{adjustEditorTitle}}"
+  value="{{adjustEditorValue}}"
+  confirmText="{{adjustEditorConfirmText}}"
+  placeholder="输入清单内容"
+  bindconfirm="confirmAdjustEditor"
+  bindcancel="closeAdjustEditor"
+/>

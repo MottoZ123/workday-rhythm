@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "每日固定项",
+  "usingComponents": {
+    "edit-sheet": "/components/edit-sheet/edit-sheet",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

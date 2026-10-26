@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "今日清单",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "progress-bar": "/components/progress-bar/progress-bar",
+    "empty-state": "/components/empty-state/empty-state",
+    "edit-sheet": "/components/edit-sheet/edit-sheet"
+  }
+}

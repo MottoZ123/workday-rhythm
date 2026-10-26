@@ -1,0 +1,78 @@
+<view class="fixed-page font-{{fontMode}}">
+  <view class="page-shell">
+    <view class="intro card">
+      <view class="intro-kicker">DAILY TEMPLATE</view>
+      <view class="intro-title">每日固定项</view>
+      <view class="intro-desc">只需要设置一次。首页以后只显示这里选中的固定项；某一天临时增减，到首页点“微调今日”即可；现在也可直接在那里新增、修改或删除条目。</view>
+      <view class="summary-row">
+        <view>
+          <text class="summary-main">{{selectedCount}}</text>
+          <text class="summary-total"> / {{totalCount}}</text>
+        </view>
+        <button class="today-link" bindtap="goToday">返回今日 ›</button>
+      </view>
+      <view class="summary-label">已选为每天固定项</view>
+    </view>
+
+    <view class="tools card">
+      <view class="search-row">
+        <input class="search-input" value="{{searchText}}" placeholder="搜索 {{totalCount}} 条条目" confirm-type="search" bindinput="handleSearch" />
+        <button wx:if="{{searchText}}" class="clear-search" bindtap="clearSearch">清除</button>
+      </view>
+      <view class="template-actions">
+        <view class="compact-action clear-fixed-action" hover-class="compact-action-active" bindtap="clearAll">清空固定项</view>
+        <view class="compact-action select-all-action" hover-class="compact-action-active" bindtap="selectAll">全部固定</view>
+      </view>
+      <view class="template-action-foot">
+        <text class="template-hint">建议先清空，再逐项勾选真正每天都会做的内容</text>
+        <text class="expand-link" bindtap="toggleAllCategories">{{allExpanded ? '收起全部' : '展开全部'}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{categories.length}}" class="category-list">
+      <view wx:for="{{categories}}" wx:key="id" class="category card">
+        <view class="category-head" data-id="{{item.id}}" bindtap="toggleCategory">
+          <view class="category-icon" style="background: {{item.color}}18; color: {{item.color}};">{{item.icon}}</view>
+          <view class="category-copy">
+            <view class="category-title">{{item.title}}</view>
+            <view class="category-count">固定 {{item.selectedCount}} / {{item.total}}</view>
+          </view>
+          <view wx:if="{{!searchText}}" class="chevron {{item.expanded ? 'chevron-open' : ''}}">⌄</view>
+        </view>
+
+        <view wx:if="{{item.expanded}}" class="category-body">
+          <view class="category-bulk">
+            <button class="bulk-button" data-category-id="{{item.id}}" data-select="true" bindtap="toggleCategoryFixed">本类全选</button>
+            <button class="bulk-button" data-category-id="{{item.id}}" data-select="false" bindtap="toggleCategoryFixed">本类清空</button>
+          </view>
+
+          <view wx:if="{{item.items.length}}" class="item-list">
+            <view wx:for="{{item.items}}" wx:for-item="task" wx:key="id" class="item-row">
+              <view class="select-area" data-item-id="{{task.id}}" bindtap="toggleFixedItem">
+                <view class="select-box {{task.selected ? 'select-box-on' : ''}}" style="border-color: {{task.selected ? item.color : '#D8CEC2'}}; background: {{task.selected ? item.color : '#FFFFFF'}};">
+                  <text wx:if="{{task.selected}}" class="select-check">✓</text>
+                </view>
+                <view class="item-text">{{task.text}}</view>
+              </view>
+              <view class="item-actions">
+                <button class="item-action" data-category-id="{{item.id}}" data-item-id="{{task.id}}" bindtap="openEditItem">编辑</button>
+                <button class="item-action delete" data-category-id="{{item.id}}" data-item-id="{{task.id}}" bindtap="deleteItem">删除</button>
+              </view>
+            </view>
+          </view>
+          <empty-state wx:else icon="🔎" title="本分类没有匹配条目" description="换个关键词试试" />
+          <button wx:if="{{!searchText}}" class="add-item" data-category-id="{{item.id}}" bindtap="openAddItem">＋ 新增条目并设为固定</button>
+        </view>
+      </view>
+    </view>
+
+    <empty-state wx:else icon="🔎" title="没有找到条目" description="换个关键词，或清除搜索" />
+
+    <view class="tip card">
+      <view class="tip-title">推荐用法</view>
+      <view class="tip-desc">第一次先点“清空固定项”，再逐项勾选真正每天都会做的内容。以后首页只保留这套精简清单，偶尔变化再临时微调。</view>
+    </view>
+  </view>
+</view>
+
+<edit-sheet visible="{{editorVisible}}" title="{{editorTitle}}" value="{{editorValue}}" bindconfirm="confirmEditor" bindcancel="closeEditor" />

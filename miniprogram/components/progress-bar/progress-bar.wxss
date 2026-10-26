@@ -1,0 +1,20 @@
+.track {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 999rpx;
+  background: #eee8df;
+}
+
+.fill {
+  height: 100%;
+  min-width: 0;
+  border-radius: 999rpx;
+  transition: width 0.45s ease;
+  background-size: 28rpx 28rpx;
+  background-image: linear-gradient(45deg, rgba(255,255,255,.18) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.18) 50%, rgba(255,255,255,.18) 75%, transparent 75%, transparent);
+}
+
+.fill-orange { background-color: #b85c38; }
+.fill-green { background-color: #5d7b6f; }
+.fill-brown { background-color: #8d7b68; }
+.fill-blue { background-color: #6b7a8f; }

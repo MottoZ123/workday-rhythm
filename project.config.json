@@ -1,0 +1,18 @@
+{
+  "description": "工休伴侣 V1.1.4：默认品牌与标题更新 + 完整日常模板、攒米进度与休息工具",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "compileHotReLoad": true
+  },
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "workday-rhythm",
+  "miniprogramRoot": "miniprogram/"
+}

@@ -1,0 +1,97 @@
+<view class="stats-page font-{{fontMode}}">
+  <view class="page-shell">
+    <view class="stats-hero card">
+      <view class="hero-copy">
+        <view class="hero-kicker">WEEKLY BREAK REPORT</view>
+        <view class="hero-title">{{stealthMode ? '本周工作节奏' : '本周摸鱼报告'}}</view>
+        <view class="hero-desc">{{stealthMode ? '休息记录已使用中性表达。' : '把休息变成看得见的数据，摸得更有边界。'}}</view>
+      </view>
+      <image class="stats-mascot" src="/assets/illustrations/cat-stats.png" mode="aspectFit" />
+    </view>
+
+    <view class="overview card">
+      <view class="overview-box">
+        <view class="overview-value">{{weekSummary.durationText}}</view>
+        <view class="overview-label">本周{{stealthMode ? '休息' : '摸鱼'}}时长</view>
+      </view>
+      <view class="overview-box center-box">
+        <view class="overview-value">{{weekSummary.count}} 次</view>
+        <view class="overview-label">本周记录</view>
+      </view>
+      <view class="overview-box">
+        <view class="overview-value orange">{{stealthMode ? '' : '¥'}}{{weekSummary.displayAmountText}}</view>
+        <view class="overview-label">{{stealthMode ? '价值已隐藏' : '本周摸鱼收益'}}</view>
+      </view>
+    </view>
+
+    <view class="subtabs">
+      <view class="subtab {{activeTab === 'week' ? 'subtab-active' : ''}}" data-tab="week" bindtap="switchSubTab">周报</view>
+      <view class="subtab {{activeTab === 'achievements' ? 'subtab-active' : ''}}" data-tab="achievements" bindtap="switchSubTab">成就</view>
+    </view>
+
+    <block wx:if="{{activeTab === 'week'}}">
+      <view class="chart-card card">
+        <view class="section-title">近 7 天{{stealthMode ? '休息' : '摸鱼'}}时长</view>
+        <view class="chart-desc">日均 {{weekSummary.avgMinutes}} 分钟</view>
+        <view class="bars">
+          <view wx:for="{{weekDays}}" wx:key="dateKey" class="bar-col">
+            <view class="bar-value">{{item.minutes}}</view>
+            <view class="bar-track"><view class="bar-fill" style="height: {{item.bar}}%;"></view></view>
+            <view class="bar-label">{{item.weekday}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="types-card card">
+        <view class="section-title">最常用类型 TOP 5</view>
+        <view wx:if="{{topLabels.length}}" class="type-list">
+          <view wx:for="{{topLabels}}" wx:key="label" class="type-row">
+            <view class="type-head"><text class="type-name">{{index + 1}}. {{item.label}}</text><text class="type-meta">{{item.durationText}} · {{item.count}}次</text></view>
+            <view class="type-track"><view class="type-fill" style="width: {{item.width}}%;"></view></view>
+          </view>
+        </view>
+        <empty-state wx:else icon="☕" title="还没有统计数据" description="完成几次计时后，这里会自动出现排行" />
+      </view>
+
+      <view class="report-entry card" bindtap="goReport">
+        <view>
+          <view class="eyebrow">DAILY CARD</view>
+          <view class="report-title">生成今天的{{stealthMode ? '工作' : '摸鱼'}}日报</view>
+          <view class="report-desc">完成清单、休息时长、收益和最常用类型会整理成一张卡片。</view>
+        </view>
+        <view class="report-arrow">›</view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="streak-card card">
+        <view class="streak-left">
+          <view class="eyebrow">CURRENT STREAK</view>
+          <view class="streak-value">{{streak}} 天</view>
+          <view class="streak-desc">连续打开记录。保持自己的节奏就好，不需要为了徽章硬撑。</view>
+        </view>
+        <view class="streak-badge">{{streak >= 7 ? '7D' : 'DAY'}}</view>
+      </view>
+
+      <view class="achievement-head card">
+        <view>
+          <view class="section-title">成就勋章</view>
+          <view class="section-desc">已解锁 {{achievements.unlockedCount}} / {{achievements.totalCount}}</view>
+        </view>
+        <view class="achievement-count">{{achievements.unlockedCount}}</view>
+      </view>
+
+      <view class="achievement-grid">
+        <view wx:for="{{achievements.items}}" wx:key="id" class="achievement-card card {{item.unlocked ? 'achievement-unlocked' : 'achievement-locked'}}">
+          <view class="achievement-icon">{{item.icon}}</view>
+          <view class="achievement-title">{{item.title}}</view>
+          <view class="achievement-desc">{{item.desc}}</view>
+          <progress-bar value="{{item.progress}}" tone="green" height="10" />
+          <view class="achievement-progress">{{item.unlocked ? '已解锁' : item.value + ' / ' + item.target}}</view>
+        </view>
+      </view>
+    </block>
+
+    <view class="quote-card">“{{quote}}”</view>
+  </view>
+</view>

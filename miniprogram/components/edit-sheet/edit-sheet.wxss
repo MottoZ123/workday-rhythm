@@ -1,0 +1,62 @@
+.mask {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(45, 35, 30, 0.48);
+}
+
+.sheet {
+  width: 100%;
+  padding: 18rpx 28rpx calc(34rpx + env(safe-area-inset-bottom));
+  border-radius: 34rpx 34rpx 0 0;
+  background: #fffdf9;
+  box-shadow: 0 -20rpx 60rpx rgba(45, 35, 30, .18);
+}
+
+.handle {
+  width: 80rpx;
+  height: 8rpx;
+  margin: 0 auto 24rpx;
+  border-radius: 999rpx;
+  background: #ddd3c7;
+}
+
+.sheet-title {
+  margin-bottom: 20rpx;
+  color: #3e2c24;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.editor {
+  min-height: 92rpx;
+  padding: 20rpx 22rpx;
+  border: 2rpx solid #e5dacf;
+  border-radius: 20rpx;
+  background: #faf6f0;
+  color: #4a3b32;
+  font-size: 30rpx;
+}
+
+.button-row {
+  display: flex;
+  gap: 18rpx;
+  margin-top: 24rpx;
+}
+
+.cancel,
+.confirm {
+  flex: 1;
+  min-height: 84rpx;
+  border-radius: 20rpx;
+  font-size: 29rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel { background: #eee7dc; color: #6f5c50; }
+.confirm { background: #4a3b32; color: #fffdf8; }

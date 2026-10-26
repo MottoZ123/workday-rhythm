@@ -1,0 +1,48 @@
+<view class="report-page font-{{fontMode}}">
+  <view class="page-shell">
+    <view class="report-preview card">
+      <view class="report-top">
+        <view>
+          <view class="eyebrow">DAILY REPORT</view>
+          <view class="report-title">{{stealthMode ? '今日工作日报' : '今日摸鱼日报'}}</view>
+          <view class="report-date">{{dateText}}</view>
+        </view>
+        <view class="report-stamp">鱼</view>
+      </view>
+
+      <view class="metric-row">
+        <view class="metric-block">
+          <view class="metric-label">清单完成</view>
+          <view class="metric-value">{{report.checklistCompleted}} / {{report.checklistTotal}}</view>
+          <view class="metric-note">完成率 {{report.checklistPercentage}}%</view>
+        </view>
+        <view class="metric-block">
+          <view class="metric-label">{{stealthMode ? '今日休息' : '今日摸鱼'}}</view>
+          <view class="metric-value">{{report.fishDurationText}}</view>
+          <view class="metric-note">{{report.fishCount}} 次 · {{report.favorite}}</view>
+        </view>
+      </view>
+
+      <view class="money-panel">
+        <view class="money-label">{{stealthMode ? '今日工作进度值' : '今日已赚（预计）'}}</view>
+        <view class="money-value">{{stealthMode ? '' : '¥'}}{{report.displayEarnedText}}</view>
+        <view class="money-note">{{stealthMode ? '敏感金额已隐藏' : '摸鱼收益 ¥' + report.displayFishAmountText}}</view>
+      </view>
+
+      <view class="quote-panel">
+        <view class="quote-label">今日一句</view>
+        <view class="quote-text">“{{quote}}”</view>
+      </view>
+      <view class="report-footer">工休伴侣 · 所有数据默认只保存在本机</view>
+    </view>
+
+    <view class="action-row">
+      <button class="action-button save-image" bindtap="saveReportImage">保存日报图片</button>
+      <button class="action-button copy-text" bindtap="copyReport">复制日报文字</button>
+    </view>
+
+    <view class="hint card">如果你开启了隐身模式，保存出来的日报也会自动隐藏工资和摸鱼收益。</view>
+
+    <canvas class="report-canvas" canvas-id="reportCanvas" width="650" height="880"></canvas>
+  </view>
+</view>

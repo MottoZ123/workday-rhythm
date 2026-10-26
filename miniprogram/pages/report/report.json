@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "今日摸鱼日报",
+  "usingComponents": {
+    "progress-bar": "/components/progress-bar/progress-bar"
+  }
+}

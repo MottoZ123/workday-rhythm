@@ -1,0 +1,225 @@
+<view class="salary-page {{stealthMode ? 'stealth-page' : ''}} font-{{fontMode}}">
+  <view class="page-shell">
+    <view class="salary-hero card">
+      <view class="hero-copy-area">
+        <view class="hero-kicker">{{stealthMode ? 'WORK PROGRESS' : 'SALARY LAB'}}</view>
+        <view class="hero-title">{{stealthMode ? '今日工作进度' : '攒米进度'}}</view>
+        <view class="hero-desc">{{stealthMode ? '敏感信息已隐藏，页面看起来像普通效率工具。' : '看着攒米进度实时增长，也给自己留一点带薪喘气的空间。'}}</view>
+      </view>
+      <image class="hero-illustration" src="/assets/illustrations/cat-lounge.png" mode="aspectFit" />
+      <view class="stealth-chip" bindtap="toggleStealth">{{stealthMode ? '退出隐身' : '隐身模式'}}</view>
+    </view>
+
+    <view class="countdown-card card">
+      <view class="countdown-col">
+        <view class="mini-label">{{live.offworkStatus}}</view>
+        <view class="countdown-value">{{live.offworkText}}</view>
+        <view class="mini-note">下班时间 {{draft.endTime || '--:--'}}</view>
+      </view>
+      <view class="divider"></view>
+      <view class="countdown-col right-col">
+        <view class="mini-label">{{stealthMode ? '今日进度值' : '今日已赚（预计）'}}</view>
+        <view class="earning-value">{{stealthMode ? '' : '¥'}}{{live.displayEarnedText}}</view>
+        <view class="mini-note">{{stealthMode ? '金额已隐藏' : '秒薪 ¥' + displayRates.perSecondText}}</view>
+      </view>
+    </view>
+
+    <view class="progress-card card">
+      <view class="progress-head">
+        <view class="section-title small-title">今日工作进度</view>
+        <view class="progress-number">{{live.progress}}%</view>
+      </view>
+      <progress-bar value="{{live.progress}}" tone="green" height="14" />
+      <view class="progress-foot">
+        <text>{{live.status}}</text>
+        <text>{{live.configured ? '剩余计薪 ' + live.remainingText : '先完成工资设置'}}</text>
+      </view>
+    </view>
+
+    <view class="quick-card card">
+      <view class="section-head">
+        <view>
+          <view class="section-title">快捷{{stealthMode ? '休息' : '摸鱼'}}</view>
+          <view class="section-desc">选一个时长，一键开始；到点自动记录。</view>
+        </view>
+        <image class="mini-illustration" src="/assets/illustrations/duck-timer.png" mode="aspectFit" />
+      </view>
+      <view class="quick-grid">
+        <view wx:for="{{quickMinutes}}" wx:key="*this" class="quick-option {{selectedQuickMinutes === item ? 'quick-option-active' : ''}}" data-minutes="{{item}}" bindtap="chooseQuickMinutes">
+          <text class="quick-number">{{item}}</text><text class="quick-unit">分钟</text>
+        </view>
+      </view>
+      <view class="selected-type-line">
+        <text>当前类型</text>
+        <text class="selected-type">{{selectedTimerLabel}}</text>
+      </view>
+      <button class="quick-start" bindtap="startQuickTimer">开始 {{selectedQuickMinutes}} 分钟{{stealthMode ? '休息' : '摸鱼'}}</button>
+    </view>
+
+    <view class="timer-card card">
+      <view class="section-head timer-head">
+        <view>
+          <view class="section-title">{{stealthMode ? '休息计时' : '摸鱼计时器'}}</view>
+          <view class="section-desc">手动计时或配合快捷时长使用。</view>
+        </view>
+        <view class="timer-state {{timerView.running ? 'timer-running' : ''}}">{{timerView.running ? '计时中' : '待机'}}</view>
+      </view>
+
+      <view class="timer-ring-shell">
+        <view class="timer-ring">
+          <view class="ring-fish">鱼</view>
+          <view class="timer-clock">{{timerView.clockText}}</view>
+          <view class="timer-clock-label">{{timerView.clockLabel}}</view>
+        </view>
+      </view>
+      <view class="timer-amount">本次对应 {{stealthMode ? '' : '¥'}}{{timerView.displayAmountText}}</view>
+
+      <view class="timer-label-head">
+        <view class="timer-label-title">{{stealthMode ? '休息类型' : '这次在摸什么鱼？'}}</view>
+        <view class="manage-label-link" bindtap="toggleLabelManager">{{labelManagerOpen ? '收起管理' : '管理类型'}}</view>
+      </view>
+      <view class="label-grid">
+        <view wx:for="{{timerLabels}}" wx:key="*this" class="label-chip {{selectedTimerLabel === item ? 'label-active' : ''}}" data-label="{{item}}" bindtap="chooseTimerLabel">
+          <text class="label-text">{{item}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{labelManagerOpen}}" class="label-manager">
+        <view wx:for="{{timerLabels}}" wx:key="*this" class="label-manage-row">
+          <text class="label-manage-name">{{item}}</text>
+          <view class="label-actions">
+            <text class="label-action" data-label="{{item}}" bindtap="openEditLabel">编辑</text>
+            <text class="label-action delete-label" data-label="{{item}}" bindtap="deleteLabel">删除</text>
+          </view>
+        </view>
+        <view class="add-label" bindtap="openAddLabel">＋ 新增自定义类型</view>
+      </view>
+
+      <view class="timer-buttons">
+        <button wx:if="{{!timerView.running}}" class="timer-primary" bindtap="startFishTimer">开始计时</button>
+        <button wx:else class="timer-primary timer-pause" bindtap="pauseFishTimer">暂停计时</button>
+        <button class="timer-secondary" bindtap="finishFishTimer">完成并记录</button>
+      </view>
+      <button class="timer-reset" bindtap="resetFishTimer">放弃并重置</button>
+    </view>
+
+    <view class="quota-card card">
+      <view class="section-head">
+        <view>
+          <view class="section-title">今日{{stealthMode ? '休息' : '摸鱼'}}额度</view>
+          <view class="section-desc">给快乐设个边界，避免一不小心摸到下班。</view>
+        </view>
+        <switch checked="{{quota.enabled}}" color="#5D7B6F" bindchange="handleQuotaSwitch" />
+      </view>
+      <view wx:if="{{quota.enabled}}" class="quota-body">
+        <view class="quota-number-row">
+          <view><text class="quota-used">{{quota.usedText}}</text><text class="quota-slash"> / {{quota.limitMinutes}}分钟</text></view>
+          <view class="quota-percent {{quota.exceeded ? 'quota-over' : ''}}">{{quota.percentage}}%</view>
+        </view>
+        <progress-bar value="{{quota.percentage}}" tone="green" height="16" />
+        <slider min="5" max="120" step="5" value="{{quota.limitMinutes}}" activeColor="#5D7B6F" backgroundColor="#E9DFD0" block-size="18" bindchange="handleQuotaSlider" />
+        <view class="quota-foot">每日上限 {{quota.limitMinutes}} 分钟 · {{quota.exceeded ? '今天已经超额，收收鱼竿' : '还可休息 ' + quota.remainingText}}</view>
+      </view>
+    </view>
+
+    <view class="random-card card">
+      <view class="random-top">
+        <view>
+          <view class="eyebrow">RANDOM BREAK</view>
+          <view class="section-title">今天摸什么？</view>
+        </view>
+        <view class="dice" bindtap="randomFish">骰</view>
+      </view>
+      <view wx:if="{{randomPick}}" class="random-result">
+        <view class="random-title">{{randomPick.title}} · {{randomPick.minutes}} 分钟</view>
+        <view class="random-note">{{randomPick.note}}</view>
+        <button class="random-start" bindtap="startRandomFish">按这个开始</button>
+      </view>
+      <view wx:else class="random-placeholder">点一下“骰”，让今天的摸鱼由命运决定。</view>
+      <view class="random-copy">“{{dailyCopy}}”</view>
+    </view>
+
+    <view class="today-summary-card card">
+      <view class="section-head">
+        <view>
+          <view class="section-title">今日记录</view>
+          <view class="section-desc">每次完成计时后自动汇总。</view>
+        </view>
+        <text class="clear-history" bindtap="clearTodaySessions">清空</text>
+      </view>
+      <view class="summary-grid">
+        <view class="summary-box"><text class="summary-number">{{sessionSummary.count}}</text><text class="summary-label">次</text><text class="summary-caption">记录</text></view>
+        <view class="summary-box"><text class="summary-number">{{sessionSummary.durationText}}</text><text class="summary-caption">今日时长</text></view>
+        <view class="summary-box"><text class="summary-number">{{stealthMode ? '' : '¥'}}{{sessionSummary.displayAmountText}}</text><text class="summary-caption">{{stealthMode ? '价值已隐藏' : '摸鱼收益'}}</text></view>
+      </view>
+      <view wx:if="{{todaySessions.length}}" class="history-list">
+        <view wx:for="{{todaySessions}}" wx:key="id" class="history-row">
+          <view class="history-dot"></view>
+          <view class="history-main">
+            <view class="history-title">{{item.label}} · {{item.durationText}}</view>
+            <view class="history-time">{{item.quick ? '快捷计时' : '手动计时'}} · {{item.endTimeText}}</view>
+          </view>
+          <view class="history-amount">{{stealthMode ? '' : '¥'}}{{item.displayAmountText}}</view>
+          <text class="history-delete" data-id="{{item.id}}" bindtap="deleteSession">删</text>
+        </view>
+      </view>
+      <empty-state wx:else icon="☕" title="今天还没有休息记录" description="从上面的快捷计时开始，给大脑一点喘气时间" />
+      <view class="insight-actions">
+        <view class="insight-button" bindtap="goStats">看本周统计</view>
+        <view class="insight-button highlight" bindtap="goReport">生成摸鱼日报</view>
+      </view>
+    </view>
+
+    <view id="salary-settings" class="settings-card card">
+      <view class="section-title">攒米与排班设置</view>
+      <view class="section-desc">收入金额由你填写，只在本机计算和保存。</view>
+      <view class="pay-tabs">
+        <view wx:for="{{payTypes}}" wx:key="value" class="pay-tab {{draft.payType === item.value ? 'pay-tab-active' : ''}}" data-value="{{item.value}}" bindtap="changePayType">{{item.label}}</view>
+      </view>
+      <view class="form-group">
+        <view class="field-label">{{amountLabel}}</view>
+        <view class="money-input-wrap"><text class="currency">¥</text><input class="money-input" type="digit" value="{{draft.amount}}" placeholder="例如 12000" data-field="amount" bindinput="handleInput" /></view>
+      </view>
+      <view class="form-group">
+        <view class="field-label">每月工作天数</view>
+        <input class="input-shell" type="digit" value="{{draft.monthlyWorkdays}}" placeholder="例如 22" data-field="monthlyWorkdays" bindinput="handleInput" />
+      </view>
+      <view class="schedule-panel">
+        <view class="schedule-head">
+          <view class="schedule-title">每日时间</view>
+          <view class="schedule-note">工作 / 午休</view>
+        </view>
+        <view class="time-grid">
+          <view class="time-field"><view class="field-label">上班</view><picker mode="time" value="{{draft.startTime}}" data-field="startTime" bindchange="handleTimeChange"><view class="time-picker"><text>{{draft.startTime}}</text><view class="picker-arrow"></view></view></picker></view>
+          <view class="time-field"><view class="field-label">午休开始</view><picker mode="time" value="{{draft.breakStart}}" data-field="breakStart" bindchange="handleTimeChange"><view class="time-picker"><text>{{draft.breakStart}}</text><view class="picker-arrow"></view></view></picker></view>
+          <view class="time-field"><view class="field-label">午休结束</view><picker mode="time" value="{{draft.breakEnd}}" data-field="breakEnd" bindchange="handleTimeChange"><view class="time-picker"><text>{{draft.breakEnd}}</text><view class="picker-arrow"></view></view></picker></view>
+          <view class="time-field"><view class="field-label">下班</view><picker mode="time" value="{{draft.endTime}}" data-field="endTime" bindchange="handleTimeChange"><view class="time-picker"><text>{{draft.endTime}}</text><view class="picker-arrow"></view></view></picker></view>
+        </view>
+      </view>
+      <view class="workday-row"><view><view class="field-label no-margin">今天是工作日</view><view class="field-hint">关闭后不累计今日收入。</view></view><switch checked="{{draft.todayWorkday}}" color="#5D7B6F" bindchange="handleWorkdayChange" /></view>
+      <view class="advanced-toggle" bindtap="toggleAdvanced">{{showAdvanced ? '收起真实时薪参数' : '展开真实时薪参数'}} <text>{{showAdvanced ? '收起' : '展开'}}</text></view>
+      <view wx:if="{{showAdvanced}}" class="advanced-panel">
+        <view class="advanced-grid">
+          <view class="form-group compact"><view class="field-label">每日往返通勤（分钟）</view><input class="input-shell" type="number" value="{{draft.commuteMinutes}}" data-field="commuteMinutes" bindinput="handleInput" /></view>
+          <view class="form-group compact"><view class="field-label">每日无偿加班（分钟）</view><input class="input-shell" type="number" value="{{draft.unpaidOvertimeMinutes}}" data-field="unpaidOvertimeMinutes" bindinput="handleInput" /></view>
+        </view>
+        <view class="form-group compact"><view class="field-label">每日工作相关支出</view><input class="input-shell" type="digit" value="{{draft.dailyExpense}}" data-field="dailyExpense" bindinput="handleInput" /></view>
+      </view>
+      <view class="truth-card">
+        <view class="truth-grid">
+          <view class="truth-metric"><text class="truth-label">每日计薪时长</text><text class="truth-value">{{rates.paidHoursText}} 小时</text></view>
+          <view class="truth-metric"><text class="truth-label">折算日薪</text><text class="truth-value">¥{{displayRates.dailyPayText}}</text></view>
+          <view class="truth-metric"><text class="truth-label">折算月收入</text><text class="truth-value">¥{{displayRates.monthlyText}}</text></view>
+          <view class="truth-metric truth-strong"><text class="truth-label">真实占用时薪</text><text class="truth-value">¥{{displayRates.realHourlyText}}</text></view>
+        </view>
+      </view>
+      <view wx:if="{{validationHint}}" class="validation-hint">{{validationHint}}</view>
+      <button class="save-settings" bindtap="saveSettings">保存并应用设置</button>
+      <view wx:if="{{settingsSavedAt}}" class="saved-at">{{settingsSavedAt}}</view>
+    </view>
+
+    <view class="disclaimer">本工具仅做个人趣味估算，不构成财务、税务或劳动建议。</view>
+  </view>
+</view>
+
+<edit-sheet visible="{{labelEditorVisible}}" title="{{labelEditorTitle}}" value="{{labelEditorValue}}" bindconfirm="confirmLabelEditor" bindcancel="closeLabelEditor" />

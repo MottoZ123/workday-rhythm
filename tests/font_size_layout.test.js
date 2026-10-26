@@ -1,0 +1,40 @@
+const fs = require('fs')
+const path = require('path')
+const root = path.resolve(__dirname, '..')
+const read = (p) => fs.readFileSync(path.join(root, p), 'utf8')
+const assert = (c, m) => { if (!c) throw new Error(m) }
+
+const appWxss = read('miniprogram/app.wxss')
+const salaryWxml = read('miniprogram/pages/salary/salary.wxml')
+const salaryWxss = read('miniprogram/pages/salary/salary.wxss')
+const manageWxml = read('miniprogram/pages/manage/manage.wxml')
+const manageJs = read('miniprogram/pages/manage/manage.js')
+const storage = read('miniprogram/utils/storage.js')
+const defaults = read('miniprogram/data/defaults.js')
+const tabWxml = read('miniprogram/custom-tab-bar/index.wxml')
+const tabWxss = read('miniprogram/custom-tab-bar/index.wxss')
+
+assert(appWxss.includes('.font-small {') && appWxss.includes('.font-medium {') && appWxss.includes('.font-large {'), 'Three global font modes must exist')
+assert(appWxss.includes('--font-22: 24rpx;') && appWxss.includes('--font-22: 26rpx;'), 'Standard and large modes must enlarge common body text')
+assert(manageWxml.includes('显示字号') && manageWxml.includes("data-mode=\"small\"") && manageWxml.includes("data-mode=\"medium\"") && manageWxml.includes("data-mode=\"large\""), 'Manage page must expose three font choices')
+assert(manageJs.includes('changeFontSize(event)') && manageJs.includes('fontSizeMode: mode'), 'Font choice must persist')
+assert(storage.includes('const SCHEMA_VERSION = 5'), 'Current schema should remain compatible with font preference migration')
+assert(storage.includes("['small', 'medium', 'large'].includes(raw.ui.fontSizeMode)"), 'Font preference must be normalized')
+assert(defaults.includes("fontSizeMode: 'medium'"), 'Default font mode should be medium')
+
+;['today','fixed','salary','stats','manage','report'].forEach((page) => {
+  const wxml = read(`miniprogram/pages/${page}/${page}.wxml`)
+  assert(wxml.includes('font-{{fontMode}}'), `${page} must bind global font mode`)
+})
+
+assert(salaryWxml.includes('class="schedule-panel"') && salaryWxml.includes('class="time-grid"'), 'Salary schedule panel must exist')
+assert(salaryWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'Salary time fields must use two-column grid')
+assert(!salaryWxss.includes('.time-field { width: calc('), 'Salary time fields must not use fragile calc width')
+assert(salaryWxss.includes('.time-field picker { display: block; width: 100%; }'), 'Each time picker must fill its grid cell')
+assert(salaryWxml.includes('class="truth-grid"'), 'Salary summary must use compact two-column metric grid')
+assert(salaryWxss.includes('.truth-grid { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));'), 'Salary summary must fill the card width')
+assert(salaryWxss.includes('text-overflow: ellipsis'), 'Dynamic values need overflow protection')
+assert(!salaryWxml.includes('⌄'), 'Time controls should not rely on font-dependent arrow glyphs')
+assert(tabWxml.includes('font-{{fontMode}}') && tabWxss.includes('.font-large .tab-text { font-size: 20rpx; }'), 'Bottom navigation font must be capped')
+
+console.log('PASS font_size_layout.test.js')

@@ -1,0 +1,38 @@
+# Local WeChat Developer Tools and personal credentials
+project.private.config.json
+*.private.json
+.env
+.env.*
+*.pem
+*.p12
+*.pfx
+*.key
+credentials.json
+secrets.json
+.wxuser/
+.wxcloud/
+# Device/account exports and backups
+*personal-data*.json
+*private-backup*.json
+*storage-export*.json
+*user-backup*.json
+*salary-export*.json
+# Generated content and caches
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.log
+.tmp/
+tmp/
+dist/
+deliverables/
+runs/
+coverage/
+*.zip
+*.sha256
+release/
